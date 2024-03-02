@@ -45,7 +45,7 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v1
         with:
-          creds: ${{ secrets.${{ inputs.env-choice }}_AZURE_CREDENTIALS }}
+          creds: ${{ secrets[inputs.env-choice + '_AZURE_CREDENTIALS'] }}
 
       - name: 'terraform init'
         working-directory: ${{ env.tf_working_dir }}
