@@ -9,6 +9,13 @@ on:
         options:
         - create/update
         - destroy
+      env-choice:
+        type: choice
+        description: Select the Environment
+        options:
+        - dev
+        - stage
+        - prod
     secrets:
       ARM_CLIENT_ID:
         required: true
@@ -21,9 +28,8 @@ on:
 
 env:
   tf_version: '1.7.4'
-  tf_working_dir: 'iac/terraform/'
+  tf_working_dir: 'iac/terraform/envs/${{ inputs.env-choice }}'
   env: 'dev'
-  aws_region: 'us-east-1'
 
 permissions:
       id-token: write

@@ -11,11 +11,7 @@ AKS, Terraform, Helm, CI/CD, etc
 - Storage Account (Firewall enabled) and Container to store tfstate
 
 ## SPN permissions
-Service: Service Account
-Resource Name: tfstate<env>20240301
-Role Assignments: Storage Account Contributor, Storage Account Key Operator Service Role
-Reason: Necessary to execute terraform init
-
+Contributor
 
 ## Run Terraform locally  
 
@@ -31,6 +27,11 @@ Init, Plan and Apply
 ```
 cd iac/terraform/envs/<env>
 terraform init
-terraform plan
+terraform plan -var-file="<env>.tfvars"
 terraform apply
 ```
+
+## TODO
+- Git Envs
+- Git Secrets
+- Infra pipeline
