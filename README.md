@@ -10,8 +10,33 @@ AKS, Terraform, Helm, CI/CD, etc
 - SPN
 - Storage Account (Firewall enabled) and Container to store tfstate
 
-## SPN permissions
-Contributor
+## SPN IAM permissions
+For the Subscription scope, set ```Contributor```for the SPN created
+
+## Github Environments
+- dev
+- stage
+- prod
+
+## Github Secrets
+For each Github Environment (dev, stage and prod) set the group of secrets
+
+```
+ARM_CLIENT_ID
+ARM_CLIENT_SECRET
+ARM_SUBSCRIPTION_ID
+ARM_TENANT_ID
+AZURE_CREDENTIALS
+```
+For ```AZURE_CREDENTIALS``` secret, follow the json format below
+```
+{
+    "clientSecret": "",
+    "subscriptionId": "",
+    "tenantId": "",
+    "clientId": ""
+}
+```
 
 ## Run Terraform locally  
 
