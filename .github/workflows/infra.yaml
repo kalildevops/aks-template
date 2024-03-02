@@ -23,7 +23,6 @@ on:
 env:
   tf_version: '1.7.4'
   tf_working_dir: 'iac/terraform/envs/${{ inputs.env-choice }}'
-  env: 'dev'
 
 permissions:
       id-token: write
@@ -32,6 +31,7 @@ permissions:
 jobs:
   update-infra:
     runs-on: ubuntu-latest
+    environment: ${{ inputs.env-choice }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -45,7 +45,7 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v1.5.1
         with:
-          creds: ${{ secrets[format('{0}_AZURE_CREDENTIALS', inputs.env-choice)] }}
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: 'terraform init'
         working-directory: ${{ env.tf_working_dir }}
