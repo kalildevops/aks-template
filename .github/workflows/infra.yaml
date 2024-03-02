@@ -10,11 +10,17 @@ on:
         - create/update
         - destroy
     secrets:
-      aws_account:
+      ARM_CLIENT_ID:
+        required: true
+      ARM_CLIENT_SECRET:
+        required: true
+      ARM_SUBSCRIPTION_ID:
+        required: true
+      ARM_TENANT_ID:
         required: true
 
 env:
-  tf_version: '1.7.3'
+  tf_version: '1.7.4'
   tf_working_dir: 'iac/terraform/'
   env: 'dev'
   aws_region: 'us-east-1'
