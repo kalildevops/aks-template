@@ -16,9 +16,6 @@ on:
         - dev
         - stage
         - prod
-    # secrets:
-    #   AZURE_CREDENTIALS:
-    #     required: true
 
 env:
   tf_version: '1.7.4'
@@ -47,16 +44,10 @@ jobs:
           terraform_wrapper: false
           terraform_version: ${{ env.tf_version }}
 
-      # - name: Install Azure CLI
-      #   run: |
-      #     curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-      #     az --version
-
       - name: Login to Azure
         uses: azure/login@v1.5.1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-          # creds: '{"clientId":"${{ secrets.AZURE_CLIENT_ID }}","clientSecret":"${{ secrets.AZURE_CLIENT_SECRET }}","subscriptionId":"${{ secrets.AZURE_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.AZURE_TENANT_ID }}"}'
 
       - name: 'terraform init'
         working-directory: ${{ env.tf_working_dir }}
@@ -64,13 +55,13 @@ jobs:
           terraform init
 
       - name: 'terraform plan'
-        if: inputs.terraform-choice == 'create'
+        if: inputs.terraform-choice == 'create/update'
         working-directory: ${{ env.tf_working_dir }}
         run: |
           terraform plan -out=tfplan -var-file=${{ inputs.env-choice }}.tfvars
 
       - name: 'terraform apply'
-        if: inputs.terraform-choice == 'create'
+        if: inputs.terraform-choice == 'create/update'
         working-directory: ${{ env.tf_working_dir }}
         run: |
           terraform apply tfplan -auto-approve
