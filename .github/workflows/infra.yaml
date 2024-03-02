@@ -55,7 +55,6 @@ jobs:
           terraform init
 
       - name: 'terraform plan'
-        if: inputs.terraform-choice == 'create/update'
         working-directory: ${{ env.tf_working_dir }}
         run: |
           terraform plan -out=tfplan -var-file=${{ inputs.env-choice }}.tfvars
