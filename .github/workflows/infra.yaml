@@ -70,4 +70,4 @@ jobs:
         if: inputs.terraform-choice == 'destroy'
         working-directory: ${{ env.tf_working_dir }}
         run: |
-          terraform destroy -auto-approve
+          terraform destroy -auto-approve -var-file=${{ inputs.env-choice }}.tfvars
