@@ -17,13 +17,7 @@ on:
         - stage
         - prod
     secrets:
-      ARM_CLIENT_ID:
-        required: true
-      ARM_CLIENT_SECRET:
-        required: true
-      ARM_SUBSCRIPTION_ID:
-        required: true
-      ARM_TENANT_ID:
+      AZURE_CREDENTIALS:
         required: true
 
 env:
@@ -48,16 +42,27 @@ jobs:
           terraform_wrapper: false
           terraform_version: ${{ env.tf_version }}
 
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
       - name: 'terraform init'
         working-directory: ${{ env.tf_working_dir }}
         run: |
           terraform init
 
+      - name: 'terraform plan'
+        if: inputs.terraform-choice == 'create'
+        working-directory: ${{ env.tf_working_dir }}
+        run: |
+          terraform plan -out=tfplan -var-file=${{ inputs.env-choice }}.tfvars
+
       - name: 'terraform apply'
         if: inputs.terraform-choice == 'create'
         working-directory: ${{ env.tf_working_dir }}
         run: |
-          terraform apply -auto-approve
+          terraform apply tfplan -auto-approve
 
       - name: 'terraform destroy-all'
         if: inputs.terraform-choice == 'destroy'
