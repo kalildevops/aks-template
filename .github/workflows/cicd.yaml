@@ -49,7 +49,7 @@ jobs:
 
       - name: Install Helm
         uses: azure/setup-helm@v4.1.0
-        id: install
+        id: install_helm
 
       - name: 'Az CLI login'
         uses: azure/login@v1
@@ -63,6 +63,15 @@ jobs:
           docker tag app:latest ${{ env.acr_name }}.azurecr.io/app:latest
           az acr login --name ${{ env.acr_name }}
           docker push ${{ env.acr_name }}.azurecr.io/app:latest
+
+      - uses: azure/setup-kubectl@v3
+        id: install_kubectl
+
+      - uses: azure/k8s-set-context@v3
+        with:
+          method: kubeconfig
+          kubeconfig: ${{ secrets.KUBECONFIG }}
+          context: ${{ inputs.env-choice }}-aks-cluster
 
       - name: Helm Install
         working-directory: ${{ env.app_working_dir }}/helm
