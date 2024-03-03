@@ -34,6 +34,5 @@ module "aks" {
   min_count            = var.min_count
   max_count            = var.max_count
   dns_service_ip       = var.dns_service_ip
-  docker_bridge_cidr   = var.docker_bridge_cidr
   tags                 = var.tags
 }

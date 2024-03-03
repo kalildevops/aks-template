@@ -9,10 +9,10 @@ tags = {
 }
 
 # AKS Vnet
-aks_address_space = "10.0.0.0/22"
+aks_address_space = "10.0.4.0/22"
 
 # AKS Subnet
-aks_address_prefixes = ["10.0.0.0/24"]
+aks_address_prefixes = ["10.0.1.0/24"]
 
 # AKS
 dns_prefix         = "devaks"
@@ -23,7 +23,6 @@ kubernetes_version = "1.27.9"
 min_count          = 1
 max_count          = 2
 dns_service_ip     = "10.0.0.10"
-docker_bridge_cidr = "172.17.0.1/16"
 
 # CosmosDB
 cosmosdb_address_space    = ["10.1.0.0/22"] # 10.1.0.1 - 10.1.3.254 

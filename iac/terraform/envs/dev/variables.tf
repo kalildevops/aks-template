@@ -21,7 +21,6 @@ variable "kubernetes_version" {}
 variable "min_count" {}
 variable "max_count" {}
 variable "dns_service_ip" {}     # "10.0.0.10"
-variable "docker_bridge_cidr" {} # "172.17.0.1/16"
 
 # CosmosDB Vnet
 variable "cosmosdb_address_space" {} # CIDR /22

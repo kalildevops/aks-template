@@ -30,7 +30,6 @@ resource "azurerm_kubernetes_cluster" "aks" {
     service_cidr       = var.aks_address_space #Vnet
     # subnet_id          = azurerm_subnet.aks_subnet.id #Subnet
     dns_service_ip     = var.dns_service_ip
-    docker_bridge_cidr = var.docker_bridge_cidr
   }
 
   identity {

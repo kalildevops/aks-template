@@ -1,5 +1,5 @@
 resource "azurerm_dns_zone" "aks_dns_zone" {
-  name                = "${var.env}-dns-zone"
+  name                = "${var.env}aks.local"
   resource_group_name = var.resource_group_name
 }
 
