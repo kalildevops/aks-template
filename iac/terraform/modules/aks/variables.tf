@@ -6,13 +6,11 @@ variable "tags" {
   type = map(string)
 }
 
-# Vnet
-variable "address_space" {} # CIDR /22
+# AKS Vnet
+variable "aks_address_space" {} # CIDR /22
 
-# Subnet
-variable "address_prefixes" {} # CIDR /24
-
-# NSG
+# AKS Subnet
+variable "aks_address_prefixes" {} # CIDR /24
 
 # AKS
 variable "dns_prefix" {}
@@ -22,3 +20,6 @@ variable "sku_tier" {}
 variable "kubernetes_version" {}
 variable "min_count" {}
 variable "max_count" {}
+variable "dns_service_ip" {} # "10.0.0.10"
+variable "docker_bridge_cidr" {} # "172.17.0.1/16"
+

@@ -5,7 +5,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   dns_prefix          = var.dns_prefix
   image_cleaner_enabled = true
   image_cleaner_interval_hours = "24"
-  local_account_disabled = false
+  local_account_disabled = true
   role_based_access_control_enabled = true
   sku_tier = var.sku_tier
   workload_identity_enabled = true
@@ -22,6 +22,15 @@ resource "azurerm_kubernetes_cluster" "aks" {
     vnet_subnet_id =
     min_count = var.min_count
     max_count = var.max_count
+  }
+
+  network_profile {
+    network_plugin     = "kubenet"
+    load_balancer_sku  = "standard"
+    service_cidr       = var.aks_address_space #Vnet
+    subnet_id          = azurerm_subnet.aks_subnet.id #Subnet
+    dns_service_ip     = var.dns_service_ip
+    docker_bridge_cidr = var.docker_bridge_cidr
   }
 
   tags = var.tags
