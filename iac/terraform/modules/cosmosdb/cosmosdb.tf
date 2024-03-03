@@ -51,7 +51,7 @@ resource "azurerm_private_endpoint" "cosmosdb_endpoint" {
 
 # Create DNS Zone
 resource "azurerm_private_dns_zone" "cosmosdb_dns_zone" {
-  name                = "${var.env}-cosmosdb-202403030603"
+  name                = "${var.env}.cosmosdb.local"
   resource_group_name = var.resource_group_name
 }
 
