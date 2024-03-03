@@ -44,6 +44,7 @@ jobs:
       #     python get-poetry.py
 
       - name: Install dependencies
+        working-directory: ${{ env.app_working_dir }}
         run: poetry install
 
       - name: Install Helm
@@ -56,6 +57,7 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Build Docker image
+        working-directory: ${{ env.app_working_dir }}
         run: |
           docker build . -t app:latest
           docker tag app:latest ${{ env.acr_name }}.azurecr.io/app:latest
@@ -63,7 +65,9 @@ jobs:
           docker push ${{ env.acr_name }}.azurecr.io/app:latest
 
       - name: Helm Install
-        run: helm install app ./path/to/helm/chart
+        working-directory: ${{ env.app_working_dir }}/helm
+        run: helm install app
 
-      - name: Helm Upgrade
-        run: helm upgrade app ./path/to/helm/chart
+      # - name: Helm Upgrade
+      #   working-directory: ${{ env.app_working_dir }}/helm
+      #   run: helm upgrade app
