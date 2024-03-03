@@ -87,6 +87,6 @@ jobs:
       - name: Helm Install or Upgrade
         working-directory: ${{ env.app_working_dir }}/helm
         run: |
-          helm ${{ inputs.helm-choice }} --generate-name --kube-context ${{ inputs.env-choice }}-aks-cluster \
+          helm ${{ inputs.helm-choice }} app --kube-context ${{ inputs.env-choice }}-aks-cluster \
             --set mongodb.connectionString=$(kubectl get secret -n python-apps mongodb-connection-secret -o jsonpath="{.data.mongodb-connection-string}" | base64 -d) .
 
