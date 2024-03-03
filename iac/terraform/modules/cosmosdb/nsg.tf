@@ -7,14 +7,14 @@ resource "azurerm_network_security_group" "cosmosdb_nsg" {
 
 # Inbound
 resource "azurerm_network_security_rule" "aks_to_cosmosdb_inbound" {
-  name = "any-443-inbound"
+  name = "aks-to-cosmosdb-inbound"
   access = "Allow"
   direction = "Inbound"
   priority = 100
   protocol = "Tcp"
-  source_address_prefix = azurerm_subnet.cosmosdb_subnet.address_prefixes[0]
+  source_address_prefix = "10.0.0.0/22"
   source_port_range = "*"
-  destination_address_prefix = azurerm_private_endpoint.cosmosdb_endpoint.private_service_connection.0.private_connection_resource_id
+  destination_address_prefix = "${azurerm_private_endpoint.cosmosdb.private_service_connection.0.private_ip_address}"
   destination_port_range = "443"
   resource_group_name = var.resource_group_name
   network_security_group_name = azurerm_network_security_group.cosmosdb_nsg.name

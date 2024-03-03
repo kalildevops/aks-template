@@ -35,3 +35,18 @@ resource "azurerm_kubernetes_cluster" "aks" {
 
   tags = var.tags
 }
+
+# Configure AKS to use ACR
+resource "azurerm_kubernetes_cluster_acr" "aks_acr" {
+  kubernetes_cluster_id = azurerm_kubernetes_cluster.aks.id
+  acr_id                = azurerm_container_registry.acr.id
+}
+
+# Grant AKS access to pull images from ACR
+data "azurerm_client_config" "current" {}
+
+resource "azurerm_role_assignment" "aks_acr_role" {
+  scope                = azurerm_container_registry.acr.id
+  role_definition_name = "AcrPull"
+  principal_id         = azurerm_kubernetes_cluster.aks.identity[0].principal_id
+}
