@@ -1,7 +1,7 @@
 # Vnet
 resource "azurerm_virtual_network" "aks_vnet" {
   name                = "${var.env}-aks-vnet"
-  address_space       = var.aks_address_space
+  address_space       = [var.aks_address_space]
   location            = var.location
   resource_group_name = var.resource_group_name
 }

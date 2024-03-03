@@ -36,7 +36,6 @@ resource "azurerm_network_security_rule" "deny_all_inbound" {
 
 # Outbound
 resource "azurerm_network_security_rule" "any_cosmosdb_outbound" {
-  depends_on = [azurerm_cosmosdb_account.cosmosdb]
   name = "any-cosmosdb-outbound"
   access = "Allow"
   direction = "Outbound"
@@ -44,7 +43,7 @@ resource "azurerm_network_security_rule" "any_cosmosdb_outbound" {
   protocol = "Tcp"
   source_address_prefix = "*"
   source_port_range = "*"
-  destination_address_prefix  = azurerm_cosmosdb_account.cosmosdb.endpoint
+  destination_address_prefix  = "*"
   destination_port_range = "443"
   resource_group_name = var.resource_group_name
   network_security_group_name = azurerm_network_security_group.aks_nsg.name
