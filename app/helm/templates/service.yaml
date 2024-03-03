@@ -4,10 +4,10 @@ metadata:
   name: app
   namespace: python-apps
 spec:
-  ports:
-    - protocol: TCP
-      port: 443
-      targetPort: 443
   selector:
     app: app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
   type: LoadBalancer
