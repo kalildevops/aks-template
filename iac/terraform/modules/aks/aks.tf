@@ -1,7 +1,7 @@
-resource "azurerm_user_assigned_identity" "aks_identity" {
-  name                = "my-aks-identity"
-  resource_group_name = var.resource_group_name
-}
+# resource "azurerm_user_assigned_identity" "aks_identity" {
+#   name                = "my-aks-identity"
+#   resource_group_name = var.resource_group_name
+# }
 
 resource "azurerm_kubernetes_cluster" "aks" {
   name                = "${var.env}-aks-cluster"
