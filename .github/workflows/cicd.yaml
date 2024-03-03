@@ -1,0 +1,66 @@
+name: CI/CD
+
+on:
+  workflow_dispatch:
+    inputs:
+      env-choice:
+        type: choice
+        description: Select the Environment
+        options:
+        - dev
+        - stage
+        - prod
+
+env:
+  app_working_dir: 'app/'
+  acr_name: 'acr${{ inputs.env-choice }}sample2024'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.env-choice }}
+    env:
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+      MONGODB_CONNECTION_STRING: ${{ secrets.MONGODB_CONNECTION_STRING }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install Poetry
+        run: |
+          curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
+          export PATH="$HOME/.poetry/bin:$PATH"
+
+      - name: Install dependencies
+        run: poetry install
+
+      - name: Install Helm
+        uses: azure/setup-helm@v4.1.0
+        id: install
+
+      - name: 'Az CLI login'
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Build Docker image
+        run: |
+          docker build . -t app:latest
+          docker tag app:latest ${{ env.acr_name }}.azurecr.io/app:latest
+          az acr login --name ${{ env.acr_name }}
+          docker push ${{ env.acr_name }}.azurecr.io/app:latest
+
+      - name: Helm Install
+        run: helm install app ./path/to/helm/chart
+
+      - name: Helm Upgrade
+        run: helm upgrade app ./path/to/helm/chart
