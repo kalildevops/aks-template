@@ -58,16 +58,25 @@ jobs:
         if: inputs.terraform-choice == 'create/update'
         working-directory: ${{ env.tf_working_dir }}
         run: |
-          terraform plan -out=tfplan -var-file=${{ inputs.env-choice }}.tfvars
+          terraform plan -out=tfplan \
+            -var-file=${{ inputs.env-choice }}.tfvars \
+            -var 'client_id=${{ secrets.ARM_CLIENT_ID }}' \
+            -var 'client_secret=${{ secrets.ARM_CLIENT_SECRET }}' \
 
       - name: 'terraform apply'
         if: inputs.terraform-choice == 'create/update'
         working-directory: ${{ env.tf_working_dir }}
         run: |
-          terraform apply -auto-approve tfplan
+          terraform apply -auto-approve tfplan \
+            -var-file=${{ inputs.env-choice }}.tfvars \
+            -var 'client_id=${{ secrets.ARM_CLIENT_ID }}' \
+            -var 'client_secret=${{ secrets.ARM_CLIENT_SECRET }}' \
 
       - name: 'terraform destroy-all'
         if: inputs.terraform-choice == 'destroy'
         working-directory: ${{ env.tf_working_dir }}
         run: |
-          terraform destroy -auto-approve -var-file=${{ inputs.env-choice }}.tfvars
+          terraform destroy -auto-approve \
+            -var-file=${{ inputs.env-choice }}.tfvars \
+            -var 'client_id=${{ secrets.ARM_CLIENT_ID }}' \
+            -var 'client_secret=${{ secrets.ARM_CLIENT_SECRET }}' \

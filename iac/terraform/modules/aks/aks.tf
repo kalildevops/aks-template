@@ -1,3 +1,8 @@
+resource "azurerm_user_assigned_identity" "aks_identity" {
+  name                = "my-aks-identity"
+  resource_group_name = var.resource_group_name
+}
+
 resource "azurerm_kubernetes_cluster" "aks" {
   name                = "${var.env}-aks-cluster"
   location            = var.location
@@ -32,9 +37,15 @@ resource "azurerm_kubernetes_cluster" "aks" {
     dns_service_ip     = var.dns_service_ip
   }
 
-  identity {
-    type = "SystemAssigned"
+  service_principal {
+    client_id = var.client_id
+    client_secret = var.client_secret
   }
+
+  # identity {
+  #   type                     = "UserAssigned"
+  #   user_assigned_identity_id = azurerm_user_assigned_identity.aks_identity.id
+  # }
 
   tags = var.tags
 }

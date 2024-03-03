@@ -34,5 +34,7 @@ module "aks" {
   min_count            = var.min_count
   max_count            = var.max_count
   dns_service_ip       = var.dns_service_ip
+  client_id            = var.client_id
+  client_secret        = var.client_secret 
   tags                 = var.tags
 }
