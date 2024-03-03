@@ -27,7 +27,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   network_profile {
     network_plugin     = "kubenet"
     load_balancer_sku  = "standard"
-    service_cidr       = var.aks_address_space #Vnet
+    service_cidr       = "10.0.4.0/22" #Vnet
     # subnet_id          = azurerm_subnet.aks_subnet.id #Subnet
     dns_service_ip     = var.dns_service_ip
   }
