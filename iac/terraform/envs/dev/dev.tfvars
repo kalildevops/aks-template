@@ -22,7 +22,7 @@ sku_tier           = "Free"
 kubernetes_version = "1.27.9"
 min_count          = 1
 max_count          = 2
-dns_service_ip     = "10.0.0.10"
+dns_service_ip     = "10.0.4.10"
 
 # CosmosDB
 cosmosdb_address_space    = ["10.1.0.0/22"] # 10.1.0.1 - 10.1.3.254 
