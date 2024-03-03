@@ -10,6 +10,12 @@ on:
         - dev
         - stage
         - prod
+      helm-choice:
+        type: choice
+        description: Select the Helm action
+        options:
+        - install
+        - upgrade
 
 env:
   app_working_dir: 'app/'
@@ -37,11 +43,6 @@ jobs:
 
       - name: Install Poetry
         uses: snok/install-poetry@v1
-
-      # - name: Install Poetry
-      #   run: |
-      #     curl -sSL -o get-poetry.py https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py
-      #     python get-poetry.py
 
       - name: Install dependencies
         working-directory: ${{ env.app_working_dir }}
@@ -73,11 +74,19 @@ jobs:
           kubeconfig: ${{ secrets.KUBECONFIG }}
           context: ${{ inputs.env-choice }}-aks-cluster
 
-      - name: Helm Install
-        working-directory: ${{ env.app_working_dir }}/helm
-        run: helm install --generate-name --kube-context ${{ inputs.env-choice }}-aks-cluster .
-
+      # - name: Helm Install
+      #   if: inputs.helm-choice == 'install'
+      #   working-directory: ${{ env.app_working_dir }}/helm
+      #   run: helm install --generate-name --kube-context ${{ inputs.env-choice }}-aks-cluster .
 
       # - name: Helm Upgrade
+      #   if: inputs.helm-choice == 'upgrade'
       #   working-directory: ${{ env.app_working_dir }}/helm
-      #   run: helm upgrade app
+      #   run: helm upgrade --generate-name --kube-context ${{ inputs.env-choice }}-aks-cluster .
+
+      - name: Helm Install or Upgrade
+        working-directory: ${{ env.app_working_dir }}/helm
+        run: |
+          helm ${{ inputs.helm-choice }} --generate-name --kube-context ${{ inputs.env-choice }}-aks-cluster \
+            --set mongodb.connectionString=$(kubectl get secret -n python-apps mongodb-connection-secret -o jsonpath="{.data.mongodb-connection-string}" | base64 -d) .
+

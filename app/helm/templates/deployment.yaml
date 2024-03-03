@@ -1,8 +1,8 @@
-# app/helm/templates/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: app
+  namespace: python-apps
 spec:
   replicas: 2
   selector:
@@ -17,4 +17,10 @@ spec:
       - name: app
         image: acrdevsample2024.azurecr.io/app:latest
         ports:
-        - containerPort: 443
+          - containerPort: 443
+        env:
+          - name: MONGODB_CONNECTION_STRING
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.mongodb.secretName }}
+                key: mongodb-connection-string

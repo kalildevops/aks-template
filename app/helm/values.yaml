@@ -1,6 +1,7 @@
-# app/helm/values.yaml
-
 replicaCount: 2
+namespace: "python-apps"
 image:
   repository: acrdevsample2024.azurecr.io
   tag: latest
+mongodb:
+  secretName: "mongodb-connection-secret"
