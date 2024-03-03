@@ -10,7 +10,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   dns_prefix          = var.dns_prefix
   # image_cleaner_enabled = true
   # image_cleaner_interval_hours = "24"
-  local_account_disabled = true
+  local_account_disabled = false
   role_based_access_control_enabled = true
   sku_tier = var.sku_tier
   # workload_identity_enabled = true
