@@ -66,7 +66,7 @@ jobs:
 
       - name: Helm Install
         working-directory: ${{ env.app_working_dir }}/helm
-        run: helm install app
+        run: helm install --generate-name .
 
       # - name: Helm Upgrade
       #   working-directory: ${{ env.app_working_dir }}/helm
