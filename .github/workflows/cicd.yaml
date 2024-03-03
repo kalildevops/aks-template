@@ -36,9 +36,12 @@ jobs:
           python-version: '3.x'
 
       - name: Install Poetry
-        run: |
-          curl -sSL -o get-poetry.py https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py
-          python get-poetry.py
+        uses: snok/install-poetry@v1
+
+      # - name: Install Poetry
+      #   run: |
+      #     curl -sSL -o get-poetry.py https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py
+      #     python get-poetry.py
 
       - name: Install dependencies
         run: poetry install
