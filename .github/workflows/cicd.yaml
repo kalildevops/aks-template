@@ -37,8 +37,8 @@ jobs:
 
       - name: Install Poetry
         run: |
-          curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
-          export PATH="$HOME/.poetry/bin:$PATH"
+          curl -sSL -o get-poetry.py https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py
+          python get-poetry.py
 
       - name: Install dependencies
         run: poetry install
