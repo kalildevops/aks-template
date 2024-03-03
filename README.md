@@ -4,11 +4,12 @@ AKS, Terraform, Helm, CI/CD, etc
 ## Prerequisites
 ### Dependencies
 - Install Terraform https://developer.hashicorp.com/terraform/install
+- Install Helm https://helm.sh/docs/intro/install/
 ### Azure
 - Azure Subscription
 - Resource Group
 - SPN
-- Storage Account (Firewall enabled) and Container to store tfstate
+- Storage Account and Container to store tfstate
 
 ## SPN IAM permissions
 For the Subscription scope, set ```Contributor```for the SPN created
@@ -27,6 +28,9 @@ ARM_CLIENT_SECRET
 ARM_SUBSCRIPTION_ID
 ARM_TENANT_ID
 AZURE_CREDENTIALS
+AZURE_CREDENTIALS
+KUBECONFIG
+MONGODB_CONNECTION_STRING
 ```
 For ```AZURE_CREDENTIALS``` secret, follow the json format below
 ```
@@ -37,6 +41,12 @@ For ```AZURE_CREDENTIALS``` secret, follow the json format below
     "clientId": ""
 }
 ```
+
+## Infra Pipeline
+https://github.com/kalildevops/aks-template/actions/workflows/infra.yaml
+
+## CI/CD pipeline
+https://github.com/kalildevops/aks-template/actions/workflows/cicd.yaml
 
 ## Run Terraform locally  
 
@@ -55,8 +65,3 @@ terraform init
 terraform plan -var-file="<env>.tfvars"
 terraform apply
 ```
-
-## TODO
-- Git Envs
-- Git Secrets
-- Infra pipeline
