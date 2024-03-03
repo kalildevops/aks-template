@@ -6,7 +6,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   # image_cleaner_enabled = true
   # image_cleaner_interval_hours = "24"
   local_account_disabled = false
-  role_based_access_control_enabled = true
+  role_based_access_control_enabled = false
   sku_tier = var.sku_tier
   # workload_identity_enabled = true
   # oidc_issuer_enabled = true
@@ -35,10 +35,6 @@ resource "azurerm_kubernetes_cluster" "aks" {
   service_principal {
     client_id = var.client_id
     client_secret = var.client_secret
-  }
-
-  role_based_access_control {
-    enabled = false
   }
 
   tags = var.tags
