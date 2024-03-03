@@ -1,0 +1,6 @@
+# app/helm/values.yaml
+
+replicaCount: 2
+image:
+  repository: acrdevsample2024.azurecr.io
+  tag: latest

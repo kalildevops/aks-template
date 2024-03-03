@@ -1,0 +1,5 @@
+# app/helm/Chart.yaml
+apiVersion: v2
+name: app
+description: A Helm chart for deploying my Python application
+version: 0.1.0
