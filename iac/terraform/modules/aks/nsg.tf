@@ -44,7 +44,7 @@ resource "azurerm_network_security_rule" "any_cosmosdb_outbound" {
   source_address_prefix = "*"
   source_port_range = "*"
   destination_address_prefix  = "*"
-  destination_port_range = "443"
+  destination_port_ranges = ["443", "10255"]
   resource_group_name = var.resource_group_name
   network_security_group_name = azurerm_network_security_group.aks_nsg.name
 }

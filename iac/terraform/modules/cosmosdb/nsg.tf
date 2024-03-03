@@ -15,7 +15,7 @@ resource "azurerm_network_security_rule" "aks_to_cosmosdb_inbound" {
   source_address_prefix = "10.0.0.0/22"
   source_port_range = "*"
   destination_address_prefix = "${azurerm_private_endpoint.cosmosdb_endpoint.private_service_connection.0.private_ip_address}"
-  destination_port_range = "443"
+  destination_port_ranges = ["443", "10255"]
   resource_group_name = var.resource_group_name
   network_security_group_name = azurerm_network_security_group.cosmosdb_nsg.name
 }
