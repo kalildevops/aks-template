@@ -30,6 +30,8 @@ resource "azurerm_cosmosdb_account" "cosmosdb" {
   consistency_policy {
     consistency_level = "Session"
   }
+
+  tags = var.tags
 }
 
 # Private Endpoint for Cosmos DB
@@ -47,10 +49,16 @@ resource "azurerm_private_endpoint" "cosmosdb_endpoint" {
   }
 }
 
+# Create DNS Zone
+resource "azurerm_private_dns_zone" "cosmosdb_dns_zone" {
+  name                = "${var.env}-cosmosdb-202403030603"
+  resource_group_name = var.resource_group_name
+}
+
 # Private DNS Zone Linking
 resource "azurerm_private_dns_zone_virtual_network_link" "cosmosdb_dns_link" {
   name                  = "${var.env}-cosmosdb-dns-link"
   resource_group_name   = var.resource_group_name
-  private_dns_zone_name = azurerm_cosmosdb_account.cosmosdb.name
+  private_dns_zone_name = azurerm_private_dns_zone.cosmosdb_dns_zone.name
   virtual_network_id    = azurerm_virtual_network.cosmosdb_vnet.id
 }
