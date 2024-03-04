@@ -8,8 +8,7 @@ RUN apt-get -y install \
     python3-dev \
     build-essential \
     telnet \
-    dnsutils \
-    netcat
+    dnsutils
 
 WORKDIR /app
 
