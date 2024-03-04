@@ -24,6 +24,11 @@ def test_connectivity():
     except Exception as e:
         return False, str(e)
 
+@app.route("/")
+def index():
+    """Function to test the functionality of the API"""
+    return "Hello, world!"
+
 # Endpoint to test connectivity with CosmosDB MongoDB
 @app.route('/test-connectivity')
 def test_connectivity_endpoint():
