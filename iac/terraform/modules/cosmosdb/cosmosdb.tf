@@ -5,6 +5,11 @@ resource "azurerm_cosmosdb_account" "cosmosdb" {
   resource_group_name = var.resource_group_name
   offer_type          = "Standard"
   kind                = "MongoDB"
+  public_network_access_enabled = true
+  is_virtual_network_filter_enabled = true
+  virtual_network_rule {
+    id = azurerm_subnet.cosmosdb_subnet.id
+  }
 
   capabilities {
     name = "EnableAggregationPipeline"

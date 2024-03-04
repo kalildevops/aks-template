@@ -12,6 +12,7 @@ resource "azurerm_subnet" "cosmosdb_subnet" {
   resource_group_name  = var.resource_group_name
   virtual_network_name = azurerm_virtual_network.cosmosdb_vnet.name
   address_prefixes     = var.cosmosdb_address_prefixes
+  service_endpoints    = ["Microsoft.AzureCosmosDB"]
 }
 
 # Route Table

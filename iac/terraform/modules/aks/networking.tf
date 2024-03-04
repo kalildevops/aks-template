@@ -12,15 +12,16 @@ resource "azurerm_subnet" "aks_subnet" {
   resource_group_name  = var.resource_group_name
   virtual_network_name = azurerm_virtual_network.aks_vnet.name
   address_prefixes     = var.aks_address_prefixes
+  service_endpoints    = ["Microsoft.AzureCosmosDB"]
 }
 
-# Public IP
-resource "azurerm_public_ip" "aks_public_ip" {
-  name                = "${var.env}-aks-public-ip"
-  location            = var.location
-  resource_group_name = var.resource_group_name
-  allocation_method   = "Static"
-}
+# # Public IP
+# resource "azurerm_public_ip" "aks_public_ip" {
+#   name                = "${var.env}-aks-public-ip"
+#   location            = var.location
+#   resource_group_name = var.resource_group_name
+#   allocation_method   = "Static"
+# }
 
 # Route Table
 resource "azurerm_route_table" "aks_route_table" {

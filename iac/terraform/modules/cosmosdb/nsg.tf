@@ -5,6 +5,12 @@ resource "azurerm_network_security_group" "cosmosdb_nsg" {
   resource_group_name = var.resource_group_name
 }
 
+# # Association
+# resource "azurerm_subnet_network_security_group_association" "cosmosdb_nsg_association" {
+#   subnet_id = azurerm_subnet.cosmosdb_subnet.id
+#   network_security_group_id = azurerm_network_security_group.cosmosdb_nsg.id
+# }
+
 # Inbound
 resource "azurerm_network_security_rule" "aks_to_cosmosdb_inbound" {
   name = "aks-to-cosmosdb-inbound"
@@ -20,31 +26,31 @@ resource "azurerm_network_security_rule" "aks_to_cosmosdb_inbound" {
   network_security_group_name = azurerm_network_security_group.cosmosdb_nsg.name
 }
 
-resource "azurerm_network_security_rule" "deny_all_inbound" {
-  name = "deny-all-inbound"
-  access = "Deny"
-  direction = "Inbound"
-  priority = 300
-  protocol = "*"
-  source_address_prefix = "*"
-  source_port_range = "*"
-  destination_address_prefix = "*"
-  destination_port_range = "*"
-  resource_group_name = var.resource_group_name
-  network_security_group_name = azurerm_network_security_group.cosmosdb_nsg.name
-}
+# resource "azurerm_network_security_rule" "deny_all_inbound" {
+#   name = "deny-all-inbound"
+#   access = "Deny"
+#   direction = "Inbound"
+#   priority = 300
+#   protocol = "*"
+#   source_address_prefix = "*"
+#   source_port_range = "*"
+#   destination_address_prefix = "*"
+#   destination_port_range = "*"
+#   resource_group_name = var.resource_group_name
+#   network_security_group_name = azurerm_network_security_group.cosmosdb_nsg.name
+# }
 
-# Outbound
-resource "azurerm_network_security_rule" "deny_all_outbound" {
-  name = "deny-all-outbound"
-  access = "Deny"
-  direction = "Outbound"
-  priority = 300
-  protocol = "*"
-  source_address_prefix = "*"
-  source_port_range = "*"
-  destination_address_prefix = "*"
-  destination_port_range = "*"
-  resource_group_name = var.resource_group_name
-  network_security_group_name = azurerm_network_security_group.cosmosdb_nsg.name
-}
+# # Outbound
+# resource "azurerm_network_security_rule" "deny_all_outbound" {
+#   name = "deny-all-outbound"
+#   access = "Deny"
+#   direction = "Outbound"
+#   priority = 300
+#   protocol = "*"
+#   source_address_prefix = "*"
+#   source_port_range = "*"
+#   destination_address_prefix = "*"
+#   destination_port_range = "*"
+#   resource_group_name = var.resource_group_name
+#   network_security_group_name = azurerm_network_security_group.cosmosdb_nsg.name
+# }

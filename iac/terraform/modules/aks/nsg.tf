@@ -5,6 +5,12 @@ resource "azurerm_network_security_group" "aks_nsg" {
   resource_group_name = var.resource_group_name
 }
 
+# # Association
+# resource "azurerm_subnet_network_security_group_association" "aks_nsg_association" {
+#   subnet_id = azurerm_subnet.aks_subnet.id
+#   network_security_group_id = azurerm_network_security_group.aks_nsg.id
+# }
+
 # Inbound
 resource "azurerm_network_security_rule" "any_443_inbound" {
   name = "any-443-inbound"
@@ -20,19 +26,19 @@ resource "azurerm_network_security_rule" "any_443_inbound" {
   network_security_group_name = azurerm_network_security_group.aks_nsg.name
 }
 
-resource "azurerm_network_security_rule" "deny_all_inbound" {
-  name = "deny-all-inbound"
-  access = "Deny"
-  direction = "Inbound"
-  priority = 300
-  protocol = "*"
-  source_address_prefix = "*"
-  source_port_range = "*"
-  destination_address_prefix = "*"
-  destination_port_range = "*"
-  resource_group_name = var.resource_group_name
-  network_security_group_name = azurerm_network_security_group.aks_nsg.name
-}
+# resource "azurerm_network_security_rule" "deny_all_inbound" {
+#   name = "deny-all-inbound"
+#   access = "Deny"
+#   direction = "Inbound"
+#   priority = 300
+#   protocol = "*"
+#   source_address_prefix = "*"
+#   source_port_range = "*"
+#   destination_address_prefix = "*"
+#   destination_port_range = "*"
+#   resource_group_name = var.resource_group_name
+#   network_security_group_name = azurerm_network_security_group.aks_nsg.name
+# }
 
 # Outbound
 resource "azurerm_network_security_rule" "any_cosmosdb_outbound" {
@@ -44,21 +50,21 @@ resource "azurerm_network_security_rule" "any_cosmosdb_outbound" {
   source_address_prefix = "*"
   source_port_range = "*"
   destination_address_prefix  = "*"
-  destination_port_ranges = ["443", "10255"]
+  destination_port_ranges = ["443", "10255", "80", "5000"]
   resource_group_name = var.resource_group_name
   network_security_group_name = azurerm_network_security_group.aks_nsg.name
 }
 
-resource "azurerm_network_security_rule" "deny_all_outbound" {
-  name = "deny-all-outbound"
-  access = "Deny"
-  direction = "Outbound"
-  priority = 300
-  protocol = "*"
-  source_address_prefix = "*"
-  source_port_range = "*"
-  destination_address_prefix = "*"
-  destination_port_range = "*"
-  resource_group_name = var.resource_group_name
-  network_security_group_name = azurerm_network_security_group.aks_nsg.name
-}
+# resource "azurerm_network_security_rule" "deny_all_outbound" {
+#   name = "deny-all-outbound"
+#   access = "Deny"
+#   direction = "Outbound"
+#   priority = 300
+#   protocol = "*"
+#   source_address_prefix = "*"
+#   source_port_range = "*"
+#   destination_address_prefix = "*"
+#   destination_port_range = "*"
+#   resource_group_name = var.resource_group_name
+#   network_security_group_name = azurerm_network_security_group.aks_nsg.name
+# }
