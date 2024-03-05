@@ -1,7 +1,25 @@
 # DevOps automation for Azure
 AKS, Terraform, Helm, CI/CD, etc
 
-## Prerequisites
+## Diagram
+![Alt text](./diagrams/azure_arch.png "")
+
+## Test API
+
+### Test base URL
+```curl -k https://<aks_name>.eastus.azmk8s.io/```
+
+### Test CosmosDB
+```curl -k https://<aks_name>.eastus.azmk8s.io/test-connectivity```
+
+## Infra Pipeline
+https://github.com/kalildevops/aks-template/actions/workflows/infra.yaml
+
+## CI/CD pipeline
+https://github.com/kalildevops/aks-template/actions/workflows/cicd.yaml
+
+
+## Project Prerequisites
 ### Dependencies
 - Install Terraform https://developer.hashicorp.com/terraform/install
 - Install Helm https://helm.sh/docs/intro/install/
@@ -11,15 +29,15 @@ AKS, Terraform, Helm, CI/CD, etc
 - SPN
 - Storage Account and Container to store tfstate
 
-## SPN IAM permissions
+### SPN IAM permissions
 For the Subscription scope, set ```Contributor```for the SPN created
 
-## Github Environments
+### Github Environments
 - dev
 - stage
 - prod
 
-## Github Secrets
+### Github Secrets
 For each Github Environment (dev, stage and prod) set the group of secrets
 
 ```
@@ -41,12 +59,29 @@ For ```AZURE_CREDENTIALS``` secret, follow the json format below
     "clientId": ""
 }
 ```
+### K8s dependencies
 
-## Infra Pipeline
-https://github.com/kalildevops/aks-template/actions/workflows/infra.yaml
+To deal with the ```MONGODB_CONNECTION_STRING``` create k8s namespace ```python-apps``` and k8s secret ```mongodb-connection-secret```
 
-## CI/CD pipeline
-https://github.com/kalildevops/aks-template/actions/workflows/cicd.yaml
+YAML examples:
+
+```
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: python-apps
+```
+
+```
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mongodb-connection-secret
+  namespace: python-apps
+data:
+  mongodb-connection-string: <base64>
+
+```
 
 ## Run Terraform locally  
 
