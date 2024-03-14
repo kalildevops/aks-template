@@ -103,12 +103,12 @@ jobs:
         working-directory: ${{ env.app_working_dir }}/helm
         run: |
           helm install --generate-name --kube-context ${{ inputs.env-choice }}-aks-cluster \
-            --set mongodb.connectionString=${{ secrets.MONGODB_CONNECTION_STRING }} . -f values-dev.yaml 
+            --set mongodb.connectionString=${{ secrets.MONGODB_CONNECTION_STRING }} . -f values-${{ inputs.env-choice }}.yaml 
 
       - name: Helm Upgrade
         if: inputs.helm-choice == 'upgrade'
         working-directory: ${{ env.app_working_dir }}/helm
         run: |
           helm upgrade app --kube-context ${{ inputs.env-choice }}-aks-cluster \
-            --set mongodb.connectionString=${{ secrets.MONGODB_CONNECTION_STRING }} . -f values-dev.yaml
+            --set mongodb.connectionString=${{ secrets.MONGODB_CONNECTION_STRING }} . -f values-${{ inputs.env-choice }}.yaml
 
