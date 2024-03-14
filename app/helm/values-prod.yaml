@@ -1,0 +1,27 @@
+# General
+namespace: python-apps
+name: app
+replicaCount: # Define after load test
+# Service
+service:
+  type: ClusterIP
+  port: 5000
+  targetPort: 5000
+# Deployment
+deployment:
+  acr: # Define after prod infra
+  image: app
+  tag: latest
+  containerPort: 5000
+  secretName: mongodb-connection-secret
+# Ingress
+ingress:
+  host: # Define after prod infra
+  service_port: 5000
+
+
+
+
+
+
+
