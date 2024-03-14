@@ -1,27 +1,28 @@
+# Dependencies
+dependencies:
+  - name: secret
+    condition: exists
+  - name: deployment
 # General
 namespace: python-apps
 name: app
-replicaCount: # Define after load test
+replicaCount: 2
 # Service
 service:
-  type: ClusterIP
+  type: LoadBalancer
   port: 5000
   targetPort: 5000
 # Deployment
 deployment:
-  acr: # Define after prod infra
+  acr:
   image: app
   tag: latest
   containerPort: 5000
   secretName: mongodb-connection-secret
 # Ingress
 ingress:
-  host: # Define after prod infra
+  host:
   service_port: 5000
-
-
-
-
-
-
-
+# Secret
+secret:
+  secretName: mongodb-connection-secret
