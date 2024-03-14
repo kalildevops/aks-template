@@ -1,0 +1,28 @@
+# Dependencies
+dependencies:
+  - name: secret
+    condition: exists
+  - name: deployment
+# General
+namespace: python-apps
+name: app
+replicaCount: 2
+# Service
+service:
+  type: LoadBalancer
+  port: 5000
+  targetPort: 5000
+# Deployment
+deployment:
+  acr:
+  image: app
+  tag: latest
+  containerPort: 5000
+  secretName: mongodb-connection-secret
+# Ingress
+ingress:
+  host:
+  service_port: 5000
+# Secret
+secret:
+  secretName: mongodb-connection-secret

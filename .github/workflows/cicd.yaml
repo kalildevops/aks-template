@@ -16,6 +16,7 @@ on:
         options:
         - install
         - upgrade
+        - uninstall
 
 env:
   app_working_dir: 'app/'
@@ -74,27 +75,23 @@ jobs:
           kubeconfig: ${{ secrets.KUBECONFIG }}
           context: ${{ inputs.env-choice }}-aks-cluster
 
-      # - name: Helm Install
-      #   if: inputs.helm-choice == 'install'
-      #   working-directory: ${{ env.app_working_dir }}/helm
-      #   run: helm install --generate-name --kube-context ${{ inputs.env-choice }}-aks-cluster .
-
-      # - name: Helm Upgrade
-      #   if: inputs.helm-choice == 'upgrade'
-      #   working-directory: ${{ env.app_working_dir }}/helm
-      #   run: helm upgrade --generate-name --kube-context ${{ inputs.env-choice }}-aks-cluster .
-
-      - name: Helm Install
+      - name: Helm Install app
         if: inputs.helm-choice == 'install'
         working-directory: ${{ env.app_working_dir }}/helm
         run: |
-          helm install --generate-name --kube-context ${{ inputs.env-choice }}-aks-cluster \
-            --set mongodb.connectionString=$(kubectl get secret -n python-apps mongodb-connection-secret -o jsonpath="{.data.mongodb-connection-string}" | base64 -d) .
+          echo -n "  connection_string: "${{ secrets.MONGODB_CONNECTION_STRING }}"" >> values-${{ inputs.env-choice }}.yaml
+          helm install app --kube-context ${{ inputs.env-choice }}-aks-cluster -f values-${{ inputs.env-choice }}.yaml .
 
-      - name: Helm Upgrade
+      - name: Helm Upgrade app
         if: inputs.helm-choice == 'upgrade'
         working-directory: ${{ env.app_working_dir }}/helm
         run: |
-          helm upgrade app --kube-context ${{ inputs.env-choice }}-aks-cluster \
-            --set mongodb.connectionString=$(kubectl get secret -n python-apps mongodb-connection-secret -o jsonpath="{.data.mongodb-connection-string}" | base64 -d) .
+          echo -n "  connection_string: "${{ secrets.MONGODB_CONNECTION_STRING }}"" >> values-${{ inputs.env-choice }}.yaml
+          helm upgrade app --kube-context ${{ inputs.env-choice }}-aks-cluster -f values-${{ inputs.env-choice }}.yaml .
+
+      - name: Helm Uninstall app
+        if: inputs.helm-choice == 'uninstall'
+        working-directory: ${{ env.app_working_dir }}/helm
+        run: |
+          helm uninstall app --kube-context ${{ inputs.env-choice }}-aks-cluster
 
