@@ -26,7 +26,6 @@ ingress:
 # Secret
 secret:
   secretName: mongodb-connection-secret
-  connection_string: ""
 
 
 
