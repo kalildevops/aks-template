@@ -100,3 +100,17 @@ terraform init
 terraform plan -var-file="<env>.tfvars"
 terraform apply
 ```
+
+## Run Helm locally
+
+Update ```values-dev.yaml``` including ```connection_string: <secret>``` in the end of the file
+```
+# Secret
+secret:
+  secretName: mongodb-connection-secret
+  connection_string: <secret>
+```
+cd app/helm/
+export MONGODB_CONNECTION_STRING="<secret>"
+helm install app --kube-context dev-aks-cluster  -f values-dev.yaml .
+```

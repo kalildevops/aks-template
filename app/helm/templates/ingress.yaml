@@ -4,14 +4,21 @@ metadata:
   name: {{ .Values.name }}-ingress
   namespace: {{ .Values.namespace }}
   annotations:
-    # nginx.ingress.kubernetes.io/rewrite-target: /
-    kubernetes.io/ingress.class: addon-http-application-routing
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
+  # ingressClassName: addon-http-application-routing
   rules:
     - host: {{ .Values.ingress.host }}
       http:
         paths:
           - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.name }}
+                port:
+                  number: {{ .Values.ingress.service_port }}
+          - path: /test-connectivity
             pathType: Prefix
             backend:
               service:
