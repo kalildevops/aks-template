@@ -110,7 +110,7 @@ jobs:
         if: inputs.helm-choice == 'upgrade'
         working-directory: ${{ env.app_working_dir }}/helm
         run: |
-          sed -i 's|connection_string: ""|connection_string: "${{ secrets.MONGODB_CONNECTION_STRING }}"|' values-${{ inputs.env-choice }}.yaml
+          echo "  connection_string: "${{ secrets.MONGODB_CONNECTION_STRING }}" >> values-${{ inputs.env-choice }}.yaml
           helm upgrade app --kube-context ${{ inputs.env-choice }}-aks-cluster -f values-${{ inputs.env-choice }}.yaml .
 
       - name: Helm Uninstall app
