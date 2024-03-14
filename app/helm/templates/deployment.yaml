@@ -22,5 +22,5 @@ spec:
           - name: MONGODB_CONNECTION_STRING
             valueFrom:
               secretKeyRef:
-                name: {{ .Values.mongodb.secretName }}
-                key: mongodb-connection-string
+                name: {{ .Values.deployment.secretName }}
+                key: connection_string
