@@ -110,6 +110,8 @@ secret:
   secretName: mongodb-connection-secret
   connection_string: <secret>
 ```
+
+```
 cd app/helm/
 export MONGODB_CONNECTION_STRING="<secret>"
 helm install app --kube-context dev-aks-cluster  -f values-dev.yaml .
